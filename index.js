@@ -2,14 +2,15 @@ import express from 'express';
 import dotenv from "dotenv";
 import jwt from 'jsonwebtoken';
 
-dotenv.config();
+const envFile = process.env.NODE_ENV === 'prod' ? '.env.prod' : '.env.dev';
+dotenv.config({ path: envFile });
+const PORT = process.env.PORT;
 const app = express();
-const PORT = process.env.PORT || 3000;
 const SECRET_KEY = process.env.JWT_SECRET || 'default_secret_key';
 
 app.use(express.json());
 
-app.get('/', (req, res) => res.json("Auth app"))
+app.get('/', (_req, res) => res.json("Auth app"))
 
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
